@@ -1,0 +1,130 @@
+{
+  "name": "@nilvec/node-server",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [],
+  "bin": {
+    "node-server": "dist/bin.js"
+  },
+  "module": "dist/node-server.cjs.js",
+  "typings": "dist/types/node-server.d.ts",
+  "typedocMain": "src/node-server.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nilvec/node-server.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon -x ts-node bin/node-server.ts -c example/node-server.conf.js",
+    "lint": "eslint --ext .ts src --fix",
+    "prettier": "prettier -c --write \"src/**/*.ts\"",
+    "prebuild": "rimraf dist",
+    "build": "tsc --module es6 && rollup -c rollup.config.ts && typedoc --out docs --name node-server --readme GLOBALS.md --theme default --entryPointStrategy packages .",
+    "start": "rollup -c rollup.config.ts -w",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "prepare": "npx husky install",
+    "pre-commit": "lint-staged"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "{src,test}/**/*.{ts,js}": [
+      "eslint --ext .ts --ext .js --fix",
+      "git add"
+    ]
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "collectCoverageFrom": [
+      "src/*.{js,ts}"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^10.11.0",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "colors": "^1.3.2",
+    "commitizen": "^4.2.4",
+    "conventional-changelog-cli": "^2.1.1",
+    "coveralls": "^3.1.1",
+    "cross-env": "^5.2.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.1",
+    "husky": "^7.0.0",
+    "jest": "^27.0.0-next.11",
+    "jest-config": "^27.4.5",
+    "jest-environment-node": "^27.0.0-next.11",
+    "lint-staged": "^12.1.4",
+    "lodash.camelcase": "^4.3.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "prompt": "^1.0.0",
+    "replace-in-file": "^6.3.2",
+    "rimraf": "^2.6.2",
+    "rollup": "^2.60.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.31.0",
+    "semantic-release": "^18.0.1",
+    "shelljs": "^0.8.4",
+    "ts-jest": "^27.0.0-next.12",
+    "ts-node": "^10.4.0",
+    "tslib": "^2.3.1",
+    "typedoc": "^0.22.9",
+    "typescript": "^4.5.4"
+  }
+}
